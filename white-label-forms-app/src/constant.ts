@@ -1,7 +1,7 @@
 import { EFieldType, IFormField } from './fields.type';
 
 // this will be sent as message form on iframe init 
-export const fields: IFormField[] = [
+const fields: IFormField[] = [
     {
         type: EFieldType.TEXT,
         properties: {
@@ -39,3 +39,8 @@ export const fields: IFormField[] = [
         }
     }
 ]
+
+export const data = {
+    fields,
+    submitButtonLabel: 'Save details'
+}
