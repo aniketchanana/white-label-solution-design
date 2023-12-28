@@ -25,7 +25,9 @@ const fields: IFormField[] = [
             placeholder: 'Enter your age',
             name: 'Age',
             required: true,
-            type: 'number'
+            type: 'number',
+            min: 0,
+            max: 130
         }
     },
     {

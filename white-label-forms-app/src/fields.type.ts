@@ -10,7 +10,8 @@ export enum EFieldType {
     NUMBER_INPUT = 'NUMBER_INPUT'
 }
 
+export type TFieldProperties = Record<string, unknown>
 export interface IFormField {
     type: EFieldType,
-    properties: Record<string, unknown>
+    properties: TFieldProperties
 }
