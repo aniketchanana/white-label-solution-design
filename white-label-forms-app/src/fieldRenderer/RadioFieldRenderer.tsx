@@ -1,6 +1,6 @@
 import { Grid, GridItem, Radio, RadioGroup } from '@chakra-ui/react';
 import { TFieldProperties } from '../fields.type';
-import { validateProperties } from '../utils';
+import { validateProperties } from '../utils/common';
 
 function RadioFieldRenderer(props: TFieldProperties) {
   validateProperties({

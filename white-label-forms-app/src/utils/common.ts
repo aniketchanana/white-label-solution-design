@@ -1,4 +1,4 @@
-import { IFormField, TFieldProperties } from './fields.type';
+import { IFormField, TFieldProperties } from '../fields.type';
 interface TValidateProperties {
     props: TFieldProperties,
     allowedKeys?: string[],

@@ -1,6 +1,6 @@
 import { Input } from '@chakra-ui/react';
 import { ETextBoxType, TFieldProperties } from '../fields.type';
-import { validateProperties } from '../utils';
+import { validateProperties } from '../utils/common';
 
 const allowedKeys = ['type', 'placeholder', 'min', 'max', 'name'];
 function NumberInputRenderer(props: TFieldProperties) {

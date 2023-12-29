@@ -1,12 +1,14 @@
 import { Button, Grid, GridItem } from '@chakra-ui/react';
 import { data } from './constant';
 import FormField from './fieldRenderer';
-import { getAllFieldsName } from './utils';
+import { getAllFieldsName } from './utils/common';
+import { useMessageHandler } from './utils/useMessageHandler';
 
 function App() {
   const formFields = data.fields;
   const fieldsName = getAllFieldsName(formFields);
   // const requiredFields = getAllRequiredFieldsName(formFields);
+  useMessageHandler();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
