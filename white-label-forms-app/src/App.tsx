@@ -1,8 +1,8 @@
-import { Button, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, Text } from '@chakra-ui/react';
+import { getAllFieldsName } from './communicationUtils/common';
+import { useMessageHandler } from './communicationUtils/useMessageHandler';
 import { data } from './constant';
 import FormField from './fieldRenderer';
-import { getAllFieldsName } from './utils/common';
-import { useMessageHandler } from './utils/useMessageHandler';
 
 function App() {
   const formFields = data.fields;
@@ -21,21 +21,27 @@ function App() {
     }));
     console.log(fieldValues);
   };
+  const appName = 'Forms app';
   return (
-    <form onSubmit={onSubmit}>
-      <Grid gap={4} padding={4}>
-        {formFields.map((field, index) => (
-          <GridItem rowSpan={1} key={index}>
-            <FormField {...field} />
+    <Box padding={4}>
+      <Text fontSize='x-large' marginBottom={4}>
+        {appName}
+      </Text>
+      <form onSubmit={onSubmit}>
+        <Grid gap={4}>
+          {formFields.map((field, index) => (
+            <GridItem rowSpan={1} key={index}>
+              <FormField {...field} />
+            </GridItem>
+          ))}
+          <GridItem rowSpan={1}>
+            <Button type='submit' variant='solid'>
+              {data.submitButtonLabel}
+            </Button>
           </GridItem>
-        ))}
-        <GridItem rowSpan={1}>
-          <Button type='submit' variant='solid'>
-            {data.submitButtonLabel}
-          </Button>
-        </GridItem>
-      </Grid>
-    </form>
+        </Grid>
+      </form>
+    </Box>
   );
 }
 
