@@ -8,7 +8,7 @@ export interface IMessage<P = unknown> {
 }
 
 export type TMessageHandler = (data: IMessage) => void;
-export type TFeatureFuncImplementation = (payload: unknown) => void;
+export type TFeatureFuncImplementation<T = unknown> = (payload: T) => void;
 
 export const validateMessage = (messageHandler: TMessageHandler) => ({ data }: { data: IMessage }) => {
     const { to, from } = data;

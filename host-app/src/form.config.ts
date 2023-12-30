@@ -1,9 +1,8 @@
-import { EFieldType, IFormField } from './fields.type';
 
 // this will be sent as message form on iframe init 
-const fields: IFormField[] = [
+const fields = [
     {
-        type: EFieldType.TEXT,
+        type: 'TEXT',
         properties: {
             placeholder: 'Enter your name',
             name: 'Name',
@@ -12,7 +11,7 @@ const fields: IFormField[] = [
         }
     },
     {
-        type: EFieldType.TEXT,
+        type: 'TEXT',
         properties: {
             placeholder: 'Enter your email',
             name: 'Email',
@@ -20,7 +19,7 @@ const fields: IFormField[] = [
         }
     },
     {
-        type: EFieldType.NUMBER_INPUT,
+        type: 'NUMBER_INPUT',
         properties: {
             placeholder: 'Enter your age',
             name: 'Age',
@@ -31,7 +30,7 @@ const fields: IFormField[] = [
         }
     },
     {
-        type: EFieldType.RADIO,
+        type: 'RADIO',
         properties: {
             placeholder: 'Select your gender',
             name: 'Gender',
@@ -42,7 +41,16 @@ const fields: IFormField[] = [
     }
 ]
 
-export const data = {
+const theme = {
+    Button: {
+        defaultProps: {
+            colorScheme: 'red'
+        }
+    }
+}
+export const formConfig = {
     fields,
-    submitButtonLabel: 'Save details'
+    submitButtonLabel: 'Save details',
+    theme,
+    appHeading: 'Cool forms app'
 }

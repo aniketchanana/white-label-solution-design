@@ -1,25 +1,26 @@
 import React from 'react';
 import { EMessagesToFormApp } from './constant';
-import {
-  IMessage,
-  TFeatureFuncImplementation,
-  validateMessage,
-} from './form.communication.utils';
+import { IMessage, validateMessage } from './form.communication.utils';
+
+type TInitFormPayload = {
+  theme: Record<string, string>;
+  appName: string;
+  fieldsConfig: Record<string, unknown>[];
+};
 
 export const useMessageHandler = () => {
-  const initializeFormsApp = React.useCallback(() => {
-    console.log('i am initializing forms app');
+  const [appConfig, setAppConfig] = React.useState<Record<string, unknown>>({});
+  const initializeFormsApp = React.useCallback((payload: TInitFormPayload) => {
+    setAppConfig(payload);
   }, []);
 
-  const messageToFeatureFuncMap: Record<
-    EMessagesToFormApp,
-    TFeatureFuncImplementation
-  > = React.useMemo(
-    () => ({
-      [EMessagesToFormApp.INIT_FORM]: initializeFormsApp,
-    }),
-    [initializeFormsApp]
-  );
+  const messageToFeatureFuncMap: Record<EMessagesToFormApp, unknown> =
+    React.useMemo(
+      () => ({
+        [EMessagesToFormApp.INIT_FORM]: initializeFormsApp,
+      }),
+      [initializeFormsApp]
+    );
 
   const handleIncomingMessage = React.useCallback(
     (data: IMessage) => {
@@ -40,4 +41,6 @@ export const useMessageHandler = () => {
     return () =>
       window.removeEventListener('message', handleMessageWithValidation);
   }, [handleIncomingMessage]);
+
+  return { appConfig };
 };

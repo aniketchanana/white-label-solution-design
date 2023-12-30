@@ -1,6 +1,7 @@
 import { Input } from '@chakra-ui/react';
-import { validateProperties } from '../communicationUtils/common';
+import React from 'react';
 import { ETextBoxType, TFieldProperties } from '../fields.type';
+import { validateProperties } from '../utils/common';
 
 const allowedKeys = ['type', 'placeholder', 'name'];
 

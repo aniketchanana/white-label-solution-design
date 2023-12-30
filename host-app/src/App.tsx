@@ -1,8 +1,9 @@
+import { formConfig } from './form.config';
 import { FORMS_APP_URL, postMessageToIFrame } from './message.utils';
 
 function App() {
   const handleIframeOnLoad = () => {
-    postMessageToIFrame('INIT_FORM', { data: 'something init' });
+    postMessageToIFrame('INIT_FORM', { ...formConfig });
   };
   return (
     <>

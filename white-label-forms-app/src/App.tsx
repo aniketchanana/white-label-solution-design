@@ -1,47 +1,83 @@
-import { Box, Button, Grid, GridItem, Text } from '@chakra-ui/react';
-import { getAllFieldsName } from './communicationUtils/common';
-import { useMessageHandler } from './communicationUtils/useMessageHandler';
-import { data } from './constant';
+import {
+  Box,
+  Button,
+  ChakraProvider,
+  Grid,
+  GridItem,
+  Text,
+} from '@chakra-ui/react';
+import React, { useState } from 'react';
+import ErrorDialog from './ErrorDialog';
 import FormField from './fieldRenderer';
+import { IFormField } from './fields.type';
+import { getAllFieldsName, getAllRequiredFieldsName } from './utils/common';
+import { useMessageHandler } from './utils/useMessageHandler';
 
 function App() {
-  const formFields = data.fields;
-  const fieldsName = getAllFieldsName(formFields);
-  // const requiredFields = getAllRequiredFieldsName(formFields);
-  useMessageHandler();
+  const { appConfig } = useMessageHandler();
+  const [errorMessage, setErrorMessage] = useState('');
+  const {
+    appHeading = 'Forms app',
+    fields = [],
+    submitButtonLabel = 'Save',
+  } = appConfig as {
+    appHeading: string;
+    fields: IFormField[];
+    submitButtonLabel: string;
+  };
 
+  if (fields.length <= 0) {
+    return <Text>No fields available on this form</Text>;
+  }
+  const requiredFields = getAllRequiredFieldsName(fields);
+  const allFields = getAllFieldsName(fields);
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(e.currentTarget);
     const formData = new FormData(e.currentTarget);
-    const fieldValues = fieldsName.map((fieldName: string) => ({
-      key: fieldName,
-      value: formData.get(fieldName),
-    }));
-    console.log(fieldValues);
+
+    const fieldValues = {};
+    allFields.forEach((fieldKey: string) => {
+      fieldValues[fieldKey] = formData.get(fieldKey);
+    });
+    const missingValueFields = requiredFields.filter(
+      (fieldKey) => !fieldValues[fieldKey]
+    );
+    if (missingValueFields.length > 0) {
+      return setErrorMessage(
+        `${missingValueFields.join(
+          ', '
+        )} are required fields and should be filled.`
+      );
+    }
   };
-  const appName = 'Forms app';
   return (
-    <Box padding={4}>
-      <Text fontSize='x-large' marginBottom={4}>
-        {appName}
-      </Text>
-      <form onSubmit={onSubmit}>
-        <Grid gap={4}>
-          {formFields.map((field, index) => (
-            <GridItem rowSpan={1} key={index}>
-              <FormField {...field} />
+    <ChakraProvider>
+      <Box padding={4}>
+        <Text fontSize='x-large' marginBottom={4}>
+          {appHeading as string}
+        </Text>
+        <form onSubmit={onSubmit}>
+          <Grid gap={4}>
+            {fields.map((field, index) => (
+              <GridItem rowSpan={1} key={index}>
+                <FormField {...field} />
+              </GridItem>
+            ))}
+            <GridItem rowSpan={1}>
+              <Button type='submit' variant='solid'>
+                {submitButtonLabel}
+              </Button>
             </GridItem>
-          ))}
-          <GridItem rowSpan={1}>
-            <Button type='submit' variant='solid'>
-              {data.submitButtonLabel}
-            </Button>
-          </GridItem>
-        </Grid>
-      </form>
-    </Box>
+          </Grid>
+        </form>
+      </Box>
+      <ErrorDialog
+        errorMessage={errorMessage}
+        setErrorMessage={setErrorMessage}
+        title='Required fields are missing'
+      />
+    </ChakraProvider>
   );
 }
 
