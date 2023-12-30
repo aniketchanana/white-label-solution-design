@@ -5,6 +5,7 @@ import {
   Grid,
   GridItem,
   Text,
+  extendTheme,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import ErrorDialog from './ErrorDialog';
@@ -20,12 +21,14 @@ function App() {
     appHeading = 'Forms app',
     fields = [],
     submitButtonLabel = 'Save',
+    theme = {},
   } = appConfig as {
     appHeading: string;
     fields: IFormField[];
     submitButtonLabel: string;
+    theme: Record<string, string>;
   };
-
+  console.log(theme);
   if (fields.length <= 0) {
     return <Text>No fields available on this form</Text>;
   }
@@ -51,8 +54,15 @@ function App() {
       );
     }
   };
+  console.log(appConfig);
   return (
-    <ChakraProvider>
+    <ChakraProvider
+      theme={extendTheme({
+        components: {
+          ...theme,
+        },
+      })}
+    >
       <Box padding={4}>
         <Text fontSize='x-large' marginBottom={4}>
           {appHeading as string}
